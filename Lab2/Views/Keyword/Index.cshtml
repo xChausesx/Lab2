@@ -1,0 +1,30 @@
+﻿@model IEnumerable<Lab2.Models.Keyword>
+
+<h2>Keywords</h2>
+
+<div>
+    <a asp-action="Create" class="btn btn-primary">Create New Keyword</a>
+</div>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Word</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var keyword in Model)
+        {
+            <tr>
+                <td>@keyword.Word</td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@keyword.Id" class="btn btn-info btn-sm">Edit</a>
+                    <form asp-action="Delete" asp-route-id="@keyword.Id" method="post" style="display:inline;">
+                        <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this keyword?')">Delete</button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

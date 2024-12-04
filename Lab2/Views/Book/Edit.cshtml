@@ -1,0 +1,44 @@
+﻿@model Lab2.Models.Book
+
+<h2>Edit Book</h2>
+
+<form asp-action="Edit" method="post" enctype="multipart/form-data">
+    <input type="hidden" asp-for="Id" />
+
+    <div class="form-group">
+        <label asp-for="Title"></label>
+        <input asp-for="Title" class="form-control" />
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Pages"></label>
+        <input asp-for="Pages" class="form-control" />
+    </div>
+
+    <div class="form-group">
+        <label asp-for="File"></label>
+        <input asp-for="FormFile" type="file" class="form-control" />
+    </div>
+
+    <div class="form-group">
+        <label>Authors</label>
+        <select asp-for="SelectedAuthors" class="form-control" multiple>
+            @foreach (var author in (SelectList)ViewData["Authors"]!)
+            {
+                <option value="@author.Value">@author.Text</option>
+            }
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label>Keywords</label>
+        <select asp-for="SelectedKeywords" class="form-control" multiple>
+            @foreach (var keyword in (SelectList)ViewData["Keywords"]!)
+            {
+                <option value="@keyword.Value">@keyword.Text</option>
+            }
+        </select>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Save</button>
+</form>

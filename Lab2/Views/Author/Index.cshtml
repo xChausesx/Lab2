@@ -1,0 +1,41 @@
+﻿@model IEnumerable<Lab2.Models.Author>
+
+<h2>Authors</h2>
+
+<div>
+    <a asp-action="Create" class="btn btn-primary">Create New Author</a>
+</div>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Short Name</th>
+            <th>Bio</th>
+            <th>Photo</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var author in Model)
+        {
+            <tr>
+                <td>@author.FullName</td>
+                <td>@author.ShortName</td>
+                <td>@author.Bio</td>
+                <td>
+                    @if (author.Photo != null)
+                    {
+                        <img src="data:image;base64,@(Convert.ToBase64String(author.Photo))" width="50" height="50" />
+                    }
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@author.Id" class="btn btn-info btn-sm">Edit</a>
+                    <form asp-action="Delete" asp-route-id="@author.Id" method="post" style="display:inline;">
+                        <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Чи ви впевнені що хочете видалити автора ?')">Delete</button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
