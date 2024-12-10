@@ -30,9 +30,13 @@
 
 <h1>Список книг</h1>
 
-<div>
-    <a asp-action="Create" class="btn btn-primary">Create New Book</a>
-</div>
+ @if (Context.User.IsInRole("Admin"))
+{
+    <div>
+        <a asp-action="Create" class="btn btn-primary">Create New Book</a>
+    </div>
+}
+
 
 <br />
 
@@ -157,10 +161,13 @@
                     {
                         <a href="@Url.Action("DownloadFile", "Book", new { id = book.Id })" class="btn btn-success btn-sm">Завантажити</a>
                     }
-                    <a asp-action="Edit" asp-route-id="@book.Id" class="btn btn-info btn-sm">Редагувати</a>
-                    <form asp-action="Delete" asp-route-id="@book.Id" method="post" style="display:inline;">
-                        <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Ви впевнені, що хочете видалити цю книгу?')">Видалити</button>
-                    </form>
+                    @if (Context.User.IsInRole("Admin"))
+                    {
+                        <a asp-action="Edit" asp-route-id="@book.Id" class="btn btn-info btn-sm">Редагувати</a>
+                        <form asp-action="Delete" asp-route-id="@book.Id" method="post" style="display:inline;">
+                            <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Ви впевнені, що хочете видалити цю книгу?')">Видалити</button>
+                        </form>
+                    }
                 </td>
             </tr>
         }

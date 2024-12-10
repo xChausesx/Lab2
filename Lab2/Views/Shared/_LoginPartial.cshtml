@@ -15,6 +15,14 @@
             <button id="logout" type="submit" class="nav-link btn btn-link text-dark border-0">Logout</button>
         </form>
     </li>
+    <li class="nav-item">
+        <a id="SwitchRole" class="nav-link text-dark" asp-controller="Account" asp-action="SwitchRole" title="Switch role">Switch role</a>
+    </li>
+    @if (TempData["Message"] != null)
+    {
+        <li class="alert alert-info" role="alert"> @TempData["Message"] </li>
+    }
+
 }
 else
 {

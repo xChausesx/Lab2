@@ -7,6 +7,7 @@ using Lab2.Enums;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 using System.Xml.Linq;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Lab2.Controllers
 {
@@ -75,6 +76,7 @@ namespace Lab2.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Create()
         {
             ViewData["Authors"] = new SelectList(await db.Authors.ToListAsync(), "Id", "FullName");
@@ -83,6 +85,7 @@ namespace Lab2.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Create(Book book)
         {
             if (!ModelState.IsValid)
@@ -102,6 +105,7 @@ namespace Lab2.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(int id)
         {
             if (!ModelState.IsValid)
@@ -123,7 +127,7 @@ namespace Lab2.Controllers
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(Book book)
         {
             if (!ModelState.IsValid)
@@ -147,7 +151,7 @@ namespace Lab2.Controllers
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int id)
         {
             if (!ModelState.IsValid)

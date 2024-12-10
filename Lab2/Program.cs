@@ -2,6 +2,8 @@ using Lab2.Context;
 using Microsoft.EntityFrameworkCore;
 using Lab2.Areas.Identity.Data;
 using Microsoft.AspNetCore.Identity;
+using static System.Formats.Asn1.AsnWriter;
+using Lab2.Enums;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,7 +13,10 @@ builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseNpgsql(Environment.GetEnvironmentVariable("CONNECTION_STRING_LAB2")), 
     ServiceLifetime.Transient);
 
-builder.Services.AddDefaultIdentity<AppUser>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<AppDbContext>();
+builder.Services.AddDefaultIdentity<AppUser>(options =>
+    options.SignIn.RequireConfirmedAccount = true)
+    .AddRoles<IdentityRole>() 
+    .AddEntityFrameworkStores<AppDbContext>();
 
 builder.Services.ConfigureApplicationCookie(options =>
 {
@@ -29,6 +34,18 @@ builder.Services.AddAuthentication(options =>
     options.DefaultChallengeScheme = IdentityConstants.ApplicationScheme;
     options.DefaultSignInScheme = IdentityConstants.ApplicationScheme;
 });
+
+using var scope = builder.Services.BuildServiceProvider().CreateScope();
+
+var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+
+foreach (UserRole role in Enum.GetValues(typeof(UserRole)))
+{
+    if (!await roleManager.RoleExistsAsync(role.ToString()))
+    {
+        await roleManager.CreateAsync(new IdentityRole(role.ToString()));
+    }
+}
 
 builder.Services.AddAuthorization();
 

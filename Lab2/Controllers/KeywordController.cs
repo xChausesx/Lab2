@@ -1,5 +1,6 @@
 ﻿using Lab2.Context;
 using Lab2.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -16,12 +17,14 @@ namespace Lab2.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Admin")]
         public IActionResult Create()
         {
             return View();
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Create(Keyword keyword)
         {
             if (!ModelState.IsValid)
@@ -37,6 +40,7 @@ namespace Lab2.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(int id)
         {
             if (!ModelState.IsValid)
@@ -55,6 +59,7 @@ namespace Lab2.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(Keyword keyword)
         {
             if (!ModelState.IsValid)
@@ -70,6 +75,7 @@ namespace Lab2.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int id)
         {
             if (!ModelState.IsValid)
